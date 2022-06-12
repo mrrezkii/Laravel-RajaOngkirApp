@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CostController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\WaybillController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,3 +21,5 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index']);
+Route::get('/cost', [CostController::class, 'index']);
+Route::get('/waybill', [WaybillController::class, 'index']);

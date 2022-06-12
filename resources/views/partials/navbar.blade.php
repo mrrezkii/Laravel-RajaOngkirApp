@@ -7,7 +7,7 @@
     </a>
     <hr class="sidebar-divider my-0">
     <li class="nav-item {{ ($active === "dashboard") ? 'active' : '' }}">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{url("/dashboard")}}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -16,7 +16,7 @@
         Features
     </div>
     <li class="nav-item {{ ($active === "cost") ? 'active' : '' }}">
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link collapsed" href="{{url("/cost")}}">
             <i class="fas fa-truck-pickup"></i>
             <span>Cost</span>
         </a>
@@ -31,7 +31,7 @@
              data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Waybill</h6>
-                <a class="collapse-item" href="#">JNE</a>
+                <a class="collapse-item" href="{{url("/waybill")}}">JNE</a>
             </div>
         </div>
     </li>
