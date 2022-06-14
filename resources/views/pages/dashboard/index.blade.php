@@ -49,7 +49,7 @@
                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                 Couriers
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">6</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_courier }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-truck-pickup fa-2x text-gray-300"></i>
@@ -66,7 +66,7 @@
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                 Services
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_services }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-server fa-2x text-gray-300"></i>

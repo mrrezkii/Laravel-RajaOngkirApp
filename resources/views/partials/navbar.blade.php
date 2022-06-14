@@ -36,6 +36,7 @@
                 <a class="collapse-item" href="{{url("/waybill?courier=jnt")}}">J&T Express</a>
                 <a class="collapse-item" href="{{url("/waybill?courier=pos")}}">POS Indonesia</a>
                 <a class="collapse-item" href="{{url("/waybill?courier=anteraja")}}">AnterAja</a>
+                <a class="collapse-item" href="{{url("/waybill?courier=tiki")}}">TIKI</a>
                 <a class="collapse-item" href="{{url("/waybill?courier=ninja")}}">Ninja Xpress</a>
             </div>
         </div>
