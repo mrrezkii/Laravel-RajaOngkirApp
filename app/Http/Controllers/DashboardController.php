@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
 use Yajra\DataTables\DataTables;
 
 class DashboardController extends Controller
@@ -15,13 +16,22 @@ class DashboardController extends Controller
             'detail_courier_services' => $this->getDetailCourierServices(),
             'total_courier' => $this->getCourierCount(),
             'total_services' => $this->getServicesCount(),
-            'data' => $this->data(),
         ]);
     }
 
     public function getDetailProvinceCity()
     {
+        $client = new Client;
+        $results = $client->request('GET', 'https://pro.rajaongkir.com/api/city', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'key' => env('RAJAONGKIR_API_KEY', 'd9dc84f71ccdeab6b7784da37d314450'),
+            ]
+        ]);
 
+        $array = json_decode($results->getBody()->getContents(), true);
+        $collection = collect($array);
+        return $collection['rajaongkir']['results'];
     }
 
     public function getDetailCourierServices()
@@ -159,7 +169,16 @@ class DashboardController extends Controller
         return $total;
     }
 
-    public function data()
+    public function dataCity()
+    {
+        $collection = collect($this->getDetailProvinceCity());
+
+        return DataTables::of($collection)
+            ->addIndexColumn()
+            ->toJson();
+    }
+
+    public function dataCourier()
     {
         $collection = collect($this->getDetailCourierServices());
 

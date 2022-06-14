@@ -3,7 +3,6 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.11.3/datatables.min.css"/>
 @endsection
 @section('container')
-    {{--    @dd($data)--}}
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
@@ -88,9 +87,20 @@
                     <h6 class="m-0 font-weight-bold text-primary">Detail Province - City</h6>
                 </div>
                 <div class="card-body">
-                    <div class="chart-area">
-                        <canvas id="myAreaChart"></canvas>
-                    </div>
+                    <table id="cityTable" class="table table-stripped text-grey">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Province</th>
+                            <th>City</th>
+                            <th>Type</th>
+                            <th>Postal Code</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -102,7 +112,7 @@
                 </div>
                 <div class="card-body">
                     <div class="pt-4 pb-2">
-                        <table id="myTable" class="table table-stripped text-grey">
+                        <table id="courierTable" class="table table-stripped text-grey">
                             <thead>
                             <tr>
                                 <th>No.</th>
@@ -123,11 +133,26 @@
 @section('custom-script')
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.11.3/datatables.min.js"></script>
     <script>
-        $('#myTable').DataTable({
+        $('#cityTable').DataTable({
             processing: true,
             serverSide: true,
             "scrollX": true,
-            ajax: '{{ route('dashboard.data') }}',
+            ajax: '{{ route('dashboard.data.city') }}',
+            columns: [
+                {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
+                {data: 'province', name: 'province'},
+                {data: 'city_name', name: 'city_name'},
+                {data: 'type', name: 'type'},
+                {data: 'postal_code', name: 'postal_code'},
+            ]
+        });
+    </script>
+    <script>
+        $('#courierTable').DataTable({
+            processing: true,
+            serverSide: true,
+            "scrollX": true,
+            ajax: '{{ route('dashboard.data.courier') }}',
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
                 {data: 'name', name: 'name'},
