@@ -9,11 +9,11 @@
     <meta name="author" content="">
     <title>Raja Ongkir - {{ $title }}</title>
     <link rel="icon" href="https://rajaongkir.com/assets/img/favicon/favicon.ico">
-    <link href="{{url('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{url('/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-    <link href="{{url('css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <link href="{{url('/css/sb-admin-2.min.css')}}" rel="stylesheet">
     @yield('custom-head')
 </head>
 
@@ -34,7 +34,9 @@
         @include('partials.footer')
     </div>
 </div>
-<script src="{{ url('/vendor/jquery/jquery.min.js') }}"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+        crossorigin="anonymous"></script>
 <script src="{{ url('/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ url('/js/sb-admin-2.min.js') }}"></script>
 @yield('custom-script')
