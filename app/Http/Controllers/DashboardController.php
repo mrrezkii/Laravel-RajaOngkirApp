@@ -13,6 +13,7 @@ class DashboardController extends Controller
             'title' => 'Dashboard',
             'active' => 'dashboard',
             'detail_province_city' => $this->getDetailProvinceCity(),
+            'detail_total_city' => $this->getCityCount(),
             'detail_courier_services' => $this->getDetailCourierServices(),
             'total_courier' => $this->getCourierCount(),
             'total_services' => $this->getServicesCount(),
@@ -21,11 +22,12 @@ class DashboardController extends Controller
 
     public function getDetailProvinceCity()
     {
+        $RAJAONGKIR_PRO_API_KEY = "82aab7e0170e3e31f9a2da7b61ef4bab";
         $client = new Client;
         $results = $client->request('GET', 'https://pro.rajaongkir.com/api/city', [
             'headers' => [
                 'Accept' => 'application/json',
-                'key' => env('RAJAONGKIR_API_KEY', 'd9dc84f71ccdeab6b7784da37d314450'),
+                'key' => env('RAJAONGKIR_API_KEY', $RAJAONGKIR_PRO_API_KEY),
             ]
         ]);
 
@@ -34,10 +36,15 @@ class DashboardController extends Controller
         return $collection['rajaongkir']['results'];
     }
 
+    public function getCityCount()
+    {
+        return count($this->getDetailProvinceCity());
+    }
+
 
     public function getDetailCourierServices()
     {
-        $data = [
+        return [
             [
                 "name" => "Jalur Nugraha Ekakurir (JNE)",
                 "service" => "OKE",
@@ -124,8 +131,6 @@ class DashboardController extends Controller
                 "description" => "Anteraja Same Day",
             ],
         ];
-
-        return $data;
     }
 
     public function getCourierCount()
@@ -135,8 +140,7 @@ class DashboardController extends Controller
 
     public function getServicesCount()
     {
-        $data = $this->getDetailCourierServices();
-        return count($data);
+        return count($this->getDetailCourierServices());
     }
 
     public function dataCity()

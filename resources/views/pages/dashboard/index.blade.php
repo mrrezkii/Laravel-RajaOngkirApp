@@ -33,7 +33,7 @@
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                 Cities
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">514</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $detail_total_city }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-city fa-2x text-gray-300"></i>
