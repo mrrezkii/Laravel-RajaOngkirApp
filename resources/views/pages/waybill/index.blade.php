@@ -4,9 +4,11 @@
 @endsection
 @section('container')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Waybill</h1>
+        <h1 class="h3 mb-0 text-gray-800">Waybill - {{$courier_name}}</h1>
     </div>
-    <form>
+    <form action="{{url("/waybill")}}" method="POST">
+        <input type="hidden" name="courier" value="{{$courier_code}}">
+        @csrf
         <div class="row">
             <div class="col-md-9 col-sm-12">
                 <div class="form-group">

@@ -31,7 +31,12 @@
              data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Waybill</h6>
-                <a class="collapse-item" href="{{url("/waybill")}}">JNE</a>
+                <a class="collapse-item" href="{{url("/waybill?courier=jne")}}">JNE</a>
+                <a class="collapse-item" href="{{url("/waybill?courier=sicepat")}}">SiCepat</a>
+                <a class="collapse-item" href="{{url("/waybill?courier=jnt")}}">J&T Express</a>
+                <a class="collapse-item" href="{{url("/waybill?courier=pos")}}">POS Indonesia</a>
+                <a class="collapse-item" href="{{url("/waybill?courier=anteraja")}}">AnterAja</a>
+                <a class="collapse-item" href="{{url("/waybill?courier=ninja")}}">Ninja Xpress</a>
             </div>
         </div>
     </li>
