@@ -5,8 +5,6 @@
 @section('container')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
     </div>
     <div class="row">
         <div class="col-xl-3 col-md-6 mb-4">
@@ -118,6 +116,7 @@
                                 <th>No.</th>
                                 <th>Courier Name</th>
                                 <th>Courier Services</th>
+                                <th>Description</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -152,11 +151,13 @@
             processing: true,
             serverSide: true,
             "scrollX": true,
+            "pageLength": 7,
             ajax: '{{ route('dashboard.data.courier') }}',
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
                 {data: 'name', name: 'name'},
-                {data: 'courier_service', name: 'courier_service'},
+                {data: 'service', name: 'service'},
+                {data: 'description', name: 'description'},
             ]
         });
     </script>
