@@ -21,5 +21,6 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index']);
+Route::get('/dashboard/_data', [DashboardController::class, 'data'])->name('dashboard.data');
 Route::get('/cost', [CostController::class, 'index']);
 Route::get('/waybill', [WaybillController::class, 'index']);

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Yajra\DataTables\DataTables;
+
 class DashboardController extends Controller
 {
     public function index()
@@ -13,6 +15,7 @@ class DashboardController extends Controller
             'detail_courier_services' => $this->getDetailCourierServices(),
             'total_courier' => $this->getCourierCount(),
             'total_services' => $this->getServicesCount(),
+            'data' => $this->data(),
         ]);
     }
 
@@ -154,5 +157,21 @@ class DashboardController extends Controller
             $total += $count;
         }
         return $total;
+    }
+
+    public function data()
+    {
+        $collection = collect($this->getDetailCourierServices());
+
+        return DataTables::of($collection)
+            ->addIndexColumn()
+            ->addColumn('courier_service', function ($collection) {
+                $datas = [];
+                for ($i = 0; $i < count($collection['cost']); $i++) {
+                    array_push($datas, $collection['cost'][$i]['service']);
+                }
+                return implode(", ", $datas);
+            })
+            ->toJson();
     }
 }
