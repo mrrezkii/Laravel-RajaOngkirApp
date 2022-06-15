@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
+use Illuminate\Http\Request;
+
 class WaybillController extends Controller
 {
     public function index()
@@ -42,5 +45,31 @@ class WaybillController extends Controller
         }
 
         return $courier_name;
+    }
+
+    public function store(Request $request)
+    {
+        $validateData = $request->validate([
+            'awb' => 'required|:max:255',
+            'courier' => 'required|:min:3',
+        ]);
+
+        $RAJAONGKIR_PRO_API_KEY = "82aab7e0170e3e31f9a2da7b61ef4bab";
+        $client = new Client;
+        $results = $client->request('POST', 'https://pro.rajaongkir.com/api/waybill', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'key' => env('RAJAONGKIR_API_KEY', $RAJAONGKIR_PRO_API_KEY),
+            ],
+            'form_params' => [
+                'waybill' => $validateData['awb'],
+                'courier' => $validateData['courier'],
+            ]
+        ]);
+
+        $array = json_decode($results->getBody()->getContents(), true);
+        $collection = collect($array);
+
+        return $collection;
     }
 }

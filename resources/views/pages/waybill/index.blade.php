@@ -16,6 +16,7 @@
                            placeholder="Enter AWB Number">
                     <small id="emailHelp" class="form-text text-muted">We'll never share your AWB number with anyone
                         else.</small>
+                    <input type="hidden" name="courier" value="{{request()->get('courier')}}">
                 </div>
 
             </div>
