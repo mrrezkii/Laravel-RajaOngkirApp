@@ -13,7 +13,7 @@
             <div class="col-md-9 col-sm-12">
                 <div class="form-group">
                     <input type="awb" name="awb" class="form-control" id="awb" aria-describedby="awb"
-                           placeholder="Enter AWB Number">
+                           placeholder="Enter AWB Number" required autocomplete="off" value="">
                     <small id="emailHelp" class="form-text text-muted">We'll never share your AWB number with anyone
                         else.</small>
                     <input type="hidden" name="courier" value="{{request()->get('courier')}}">
@@ -25,95 +25,42 @@
             </div>
         </div>
     </form>
-    <div class="row">
-        <div class="col-12">
-            <div id="my-roadmap"></div>
+    @if(session()->has('data'))
+        <div class="row">
+            <div class="col-12">
+                <div id="my-roadmap"></div>
+            </div>
         </div>
-    </div>
+    @endif
 @endsection
 @section('custom-script')
     <script src="{{url('/vendor/dynamic-animated-timeline-slider/dist/jquery.roadmap.min.js')}}"
             type="text/javascript"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            var events = [
-                {
-                    date: 'Q1 - 2018',
-                    content: 'Lorem ipsum dolor sit amet<small>Consectetur adipisicing elit</small>'
-                },
-                {
-                    date: 'Q2 - 2018',
-                    content: 'Lorem ipsum dolor sit amet<small>Consectetur adipisicing elit</small>'
-                },
-                {
-                    date: 'Q3 - 2018',
-                    content: 'Lorem ipsum dolor sit amet<small>Consectetur adipisicing elit</small>'
-                },
-                {
-                    date: 'Q4 - 2018',
-                    content: 'Lorem ipsum dolor sit amet<small>Consectetur adipisicing elit</small>'
-                },
-                {
-                    date: 'Q1 - 2019',
-                    content: 'Lorem ipsum dolor sit amet<small>Consectetur adipisicing elit</small>'
-                },
-                {
-                    date: 'Q2 - 2019',
-                    content: 'Lorem ipsum dolor sit amet<small>Consectetur adipisicing elit</small>'
-                },
-                {
-                    date: 'Q3 - 2019',
-                    content: 'Lorem ipsum dolor sit amet<small>Consectetur adipisicing elit</small><small>Consectetur adipisicing elit</small>'
-                },
-                {
-                    date: 'Q4 - 2019',
-                    content: 'Lorem ipsum dolor sit amet<small>Consectetur adipisicing elit</small>'
-                },
-                {
-                    date: 'Q1 - 2020',
-                    content: 'Lorem ipsum dolor sit amet<small>Consectetur adipisicing elit</small>'
-                },
-                {
-                    date: 'Q2 - 2020',
-                    content: 'Lorem ipsum dolor sit amet<small>Consectetur adipisicing elit</small>'
-                },
-                {
-                    date: 'Q3 - 2020',
-                    content: 'Lorem ipsum dolor sit amet<small>Consectetur adipisicing elit</small>'
-                },
-                {
-                    date: 'Q4 - 2020',
-                    content: 'Lorem ipsum dolor sit amet<small>Consectetur adipisicing elit</small>'
-                },
-                {
-                    date: 'Q1 - 2021',
-                    content: 'Lorem ipsum dolor sit amet<small>Consectetur adipisicing elit</small>'
-                },
-                {
-                    date: 'Q2 - 2021',
-                    content: 'Lorem ipsum dolor sit amet<small>Consectetur adipisicing elit</small>'
-                },
-                {
-                    date: 'Q3 - 2021',
-                    content: 'Lorem ipsum dolor sit amet<small>Consectetur adipisicing elit</small>'
-                },
-                {
-                    date: 'Q4 - 2021',
-                    content: 'Lorem ipsum dolor sit amet<small>Consectetur adipisicing elit</small>'
+    @if(session()->has('data'))
+        <script type="text/javascript">
+            $(document).ready(function () {
+                const data = @json(session()->get('data'));
+                const manifest = data['rajaongkir']['result']['manifest']
+                const events = [];
+                for (let i = 0; i < manifest.length; i++) {
+                    events.push({
+                        date: `${manifest[i]['manifest_date']} - ${manifest[i]['manifest_time']}`,
+                        content: `${manifest[i]['manifest_code']} - ${manifest[i]['manifest_description']}`,
+                    })
                 }
-            ];
+                const eventsReversed = events.reverse();
 
-            $('#my-roadmap').roadmap(events, {
-                orientation: 'auto',
-                eventsPerSlide: 6,
-                slide: 1,
-                prevArrow: '<i class="far fa-arrow-alt-circle-left text-gray-300"></i>',
-                nextArrow: '<i class="far fa-arrow-alt-circle-right text-gray-300"></i>',
-                onBuild: function () {
-                    console.log('onBuild event')
-                }
+                $('#my-roadmap').roadmap(eventsReversed, {
+                    orientation: 'auto',
+                    eventsPerSlide: 6,
+                    slide: 1,
+                    prevArrow: '<i class="far fa-arrow-alt-circle-left text-gray-300"></i>',
+                    nextArrow: '<i class="far fa-arrow-alt-circle-right text-gray-300"></i>',
+                    onBuild: function () {
+                        console.log('onBuild event')
+                    }
+                });
             });
-        });
-    </script>
+        </script>
+    @endif
 @endsection
