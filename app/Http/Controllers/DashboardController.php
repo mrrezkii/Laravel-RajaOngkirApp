@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
 use GuzzleHttp\Client;
 use Yajra\DataTables\DataTables;
 
@@ -22,18 +23,34 @@ class DashboardController extends Controller
 
     public function getDetailProvinceCity()
     {
-        $RAJAONGKIR_PRO_API_KEY = "82aab7e0170e3e31f9a2da7b61ef4bab";
-        $client = new Client;
-        $results = $client->request('GET', 'https://pro.rajaongkir.com/api/city', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'key' => env('RAJAONGKIR_API_KEY', $RAJAONGKIR_PRO_API_KEY),
-            ]
-        ]);
+        if (City::where('city_id', "1")->exists() && City::where('city_id', "501")->exists()) {
+            return City::all();
+        } else {
+            $RAJAONGKIR_PRO_API_KEY = "82aab7e0170e3e31f9a2da7b61ef4bab";
+            $client = new Client;
+            $results = $client->request('GET', 'https://pro.rajaongkir.com/api/city', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'key' => env('RAJAONGKIR_API_KEY', $RAJAONGKIR_PRO_API_KEY),
+                ]
+            ]);
 
-        $array = json_decode($results->getBody()->getContents(), true);
-        $collection = collect($array);
-        return $collection['rajaongkir']['results'];
+            $array = json_decode($results->getBody()->getContents(), true);
+            $collections = collect($array);
+            $collections = $collections['rajaongkir']['results'];
+
+            foreach ($collections as $item) {
+                City::updateOrCreate([
+                    'city_id' => $item['city_id'],
+                    'province_id' => $item['province_id'],
+                    'province' => $item['province'],
+                    'type' => $item['type'],
+                    'city_name' => $item['city_name'],
+                    'postal_code' => $item['postal_code'],
+                ]);
+            }
+            return $collections;
+        }
     }
 
     public function getCityCount()
@@ -135,7 +152,7 @@ class DashboardController extends Controller
 
     public function getCourierCount()
     {
-        return 6;
+        return 7;
     }
 
     public function getServicesCount()
