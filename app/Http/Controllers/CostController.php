@@ -93,7 +93,7 @@ class CostController extends Controller
 
         $request->session()->put("cost_id", $COST_ID);
 
-        return redirect('/cost')->with('data', true);
+        return redirect('/cost?origin=' . $validateData['origin'] . '&destination=' . $validateData['destination'])->with('data', true);
     }
 
     public function dataResults()
@@ -126,7 +126,10 @@ class CostController extends Controller
 
     public function getFastest()
     {
-
+        return CostLog::where('cost_id', '=', session('cost_id'))
+            ->orderByRaw('CONVERT(etd_day, SIGNED) asc')
+            ->LIMIT(3)
+            ->get();
     }
 
 }
