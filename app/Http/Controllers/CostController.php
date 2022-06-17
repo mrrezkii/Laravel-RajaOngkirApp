@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cost;
+use App\Models\CostLog;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
@@ -54,8 +54,8 @@ class CostController extends Controller
 
         foreach ($collections as $items) {
             foreach ($items['costs'] as $costs) {
-                Cost::updateOrCreate([
-                    'cost_id' => Uuid::uuid4()->toString() . "\n",
+                CostLog::updateOrCreate([
+                    'cost_log_id' => Uuid::uuid4()->toString() . "\n",
                     'courier' => $items['name'],
                     'service' => $costs['service'],
                     'description' => $costs['description'],
