@@ -17,7 +17,7 @@
                         data-width="100%" title="Choose one of the following..." data-size="5" required>
                     @foreach($cities as $city)
                         <option data-tokens="{{$city->postal_code ?? ''}}"
-                                value="{{$city->city_id ?? ''}}">{{$city->type ?? ''}} {{$city->city_name ?? '' }}</option>
+                                value="{{$city->city_id ?? ''}}" {{ $city->city_id == request()->get('origin') ? 'selected' : '' }}>{{$city->type ?? ''}} {{$city->city_name ?? '' }}</option>
                     @endforeach
                 </select>
             </div>
@@ -28,7 +28,7 @@
                         data-size="5" required>
                     @foreach($cities as $city)
                         <option data-tokens="{{$city->postal_code ?? ''}}"
-                                value="{{$city->city_id ?? ''}}">{{$city->type ?? ''}} {{$city->city_name ?? ''}}</option>
+                                value="{{$city->city_id ?? ''}}" {{ $city->city_id == request()->get('destination') ? 'selected' : '' }}>{{$city->type ?? ''}} {{$city->city_name ?? ''}}</option>
                     @endforeach
                 </select>
             </div>
@@ -81,7 +81,7 @@
                             <th scope="row">{{ $count++ }}</th>
                             <td>{{ $fast->courier }}</td>
                             <td>{{ $fast->service }}</td>
-                            <td>{{ $fast->etd_day == '' || $fast->etd_day == null ? "-" : $fast->etd_day." day"}}</td>
+                            <td>{{ $fast->etd_day == '' || $fast->etd_day == null ? "-" : str_replace('HARI', '',$fast->etd_day). ' day'}}</td>
                         </tr>
                     @endforeach
                     </tbody>
