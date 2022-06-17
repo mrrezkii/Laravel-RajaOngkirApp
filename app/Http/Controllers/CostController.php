@@ -17,7 +17,9 @@ class CostController extends Controller
         return view('pages.cost.index', [
             'title' => 'Cost',
             'active' => 'cost',
-            'cities' => $this->getCities()
+            'cities' => $this->getCities(),
+            'cheapest' => $this->getCheapest(),
+            'fastest' => $this->getFastest()
         ]);
     }
 
@@ -100,6 +102,9 @@ class CostController extends Controller
 
         return DataTables::of($model)
             ->addIndexColumn()
+            ->addColumn('price', function ($model) {
+                return "IDR " . number_format($model->price, 2, ',', '.');
+            })
             ->addColumn('etd_day', function ($model) {
                 if ($model->etd_day == null || $model->etd_day == "") {
                     return "-";
@@ -109,6 +114,19 @@ class CostController extends Controller
                 }
             })
             ->toJson();
+    }
+
+    public function getCheapest()
+    {
+        return CostLog::where('cost_id', '=', session('cost_id'))
+            ->orderByRaw('CONVERT(price, SIGNED) asc')
+            ->LIMIT(3)
+            ->get();
+    }
+
+    public function getFastest()
+    {
+
     }
 
 }
