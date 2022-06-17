@@ -7,9 +7,11 @@ use App\Models\CostLog;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
+use Yajra\DataTables\DataTables;
 
 class CostController extends Controller
 {
+
     public function index()
     {
         return view('pages.cost.index', [
@@ -58,7 +60,7 @@ class CostController extends Controller
         $collections = collect($array);
         $collections = $collections['rajaongkir']['results'];
 
-        $COST_ID = Uuid::uuid4()->toString() . "\n";
+        $COST_ID = Uuid::uuid4()->toString();
 
         Cost::updateOrCreate(
             [
@@ -75,7 +77,7 @@ class CostController extends Controller
         foreach ($collections as $items) {
             foreach ($items['costs'] as $costs) {
                 CostLog::updateOrCreate([
-                    'cost_log_id' => Uuid::uuid4()->toString() . "\n",
+                    'cost_log_id' => Uuid::uuid4()->toString(),
                     'cost_id' => $COST_ID,
                     'courier' => $items['name'],
                     'service' => $costs['service'],
@@ -87,18 +89,26 @@ class CostController extends Controller
 
         }
 
-        $this->dataResults($collections);
+        $request->session()->put("cost_id", $COST_ID);
 
-        return redirect('/cost')->with('data', $collections);
+        return redirect('/cost')->with('data', true);
     }
 
-    public function dataResults(array $collection)
+    public function dataResults()
     {
+        $model = CostLog::where('cost_id', '=', session('cost_id'))->get();
 
-        dd($collection);
-//        return DataTables::of($collection)
-//            ->addIndexColumn()
-//            ->toJson();
+        return DataTables::of($model)
+            ->addIndexColumn()
+            ->addColumn('etd_day', function ($model) {
+                if ($model->etd_day == null || $model->etd_day == "") {
+                    return "-";
+                } else {
+                    $newString = str_replace("HARI", "", $model->etd_day);
+                    return $newString . " day";
+                }
+            })
+            ->toJson();
     }
 
 }
