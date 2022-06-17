@@ -24,5 +24,7 @@ Route::get('/dashboard', [DashboardController::class, 'index']);
 Route::get('/dashboard/_data/city', [DashboardController::class, 'dataCity'])->name('dashboard.data.city');
 Route::get('/dashboard/_data/courier', [DashboardController::class, 'dataCourier'])->name('dashboard.data.courier');
 Route::get('/cost', [CostController::class, 'index']);
+Route::post('/cost', [CostController::class, 'store']);
+Route::get('cost/_data/results', [CostController::class, 'dataResults'])->name('cost.data.results');
 Route::get('/waybill', [WaybillController::class, 'index']);
 Route::post('/waybill', [WaybillController::class, 'store']);
