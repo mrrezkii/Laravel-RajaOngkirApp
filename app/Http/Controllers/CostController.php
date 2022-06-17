@@ -8,7 +8,14 @@ class CostController extends Controller
     {
         return view('pages.cost.index', [
             'title' => 'Cost',
-            'active' => 'cost'
+            'active' => 'cost',
+            'cities' => $this->getCities()
         ]);
+    }
+
+    public function getCities()
+    {
+        $dashboard = new DashboardController();
+        return $dashboard->getDetailProvinceCity();
     }
 }

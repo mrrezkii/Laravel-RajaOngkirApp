@@ -1,4 +1,8 @@
 @extends('layouts.main')
+@section('custom-head')
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+@endsection
 @section('container')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Cost</h1>
@@ -6,15 +10,29 @@
     <form action="{{url('/cost')}}" method="POST">
         @csrf
         <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="col-lg-4 col-md-6 col-sm-12">
                 <label for="origin" class="text-dark">Origin</label>
-                <input type="origin" name="origin" class="form-control" id="origin" aria-describedby="origin"
-                       placeholder="City">
+                <select name="origin" class="selectpicker" data-live-search="true" data-style="btn btn-outline-info"
+                        data-width="100%" title="Choose one of the following..." data-size="5" required>
+                    @foreach($cities as $city)
+                        <option data-tokens="{{$city->postal_code ?? ''}}"
+                                value="{{$city->city_id ?? ''}}">{{$city->type ?? ''}} {{$city->city_name ?? '' }}</option>
+                    @endforeach
+                </select>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="col-lg-4 col-md-6 col-sm-12">
                 <label for="destination" class="text-dark">Destination</label>
-                <input type="destination" name="destination" class="form-control" id="origin"
-                       aria-describedby="destination" placeholder="City">
+                <select name="destination" class="selectpicker" data-live-search="true"
+                        data-style="btn btn-outline-info" data-width="100%" title="Choose one of the following..."
+                        data-size="5" required>
+                    @foreach($cities as $city)
+                        <option data-tokens="{{$city->postal_code ?? ''}}"
+                                value="{{$city->city_id ?? ''}}">{{$city->type ?? ''}} {{$city->city_name ?? ''}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <button type="submit" class="btn btn-primary" style="margin-top: 31px;">Submit</button>
             </div>
         </div>
     </form>
@@ -89,4 +107,8 @@
             <h4 class="text-gray-800 text-center mt-2">Result</h4>
         </div>
     </div>
+@endsection
+@section('custom-script')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
 @endsection
