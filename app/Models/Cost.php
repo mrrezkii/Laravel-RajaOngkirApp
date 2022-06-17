@@ -13,5 +13,5 @@ class Cost extends Model
     protected $table = 'costs';
     protected $primaryKey = 'cost_id';
     protected $keyType = 'string';
-    protected $fillable = ['cost_id', 'courier', 'service', 'description', 'price', 'etd_day'];
+    protected $fillable = ['cost_id', 'origin', 'originType', 'destination', 'destinationType', 'weight', 'courier'];
 }

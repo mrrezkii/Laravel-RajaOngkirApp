@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cost;
 use App\Models\CostLog;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -32,6 +33,11 @@ class CostController extends Controller
         ]);
 
         $RAJAONGKIR_PRO_API_KEY = "82aab7e0170e3e31f9a2da7b61ef4bab";
+        $ORIGIN_TYPE = "city";
+        $DESTINATION_TYPE = "city";
+        $WEIGHT = "1000";
+        $COURIER = "jne:sicepat:jnt:pos:ninja:anteraja:tiki";
+
         $client = new Client;
         $results = $client->request('POST', 'https://pro.rajaongkir.com/api/cost', [
             'headers' => [
@@ -40,11 +46,11 @@ class CostController extends Controller
             ],
             'form_params' => [
                 'origin' => $validateData['origin'],
-                'originType' => 'city',
+                'originType' => $ORIGIN_TYPE,
                 'destination' => $validateData['destination'],
-                'destinationType' => 'city',
-                'weight' => '1000',
-                'courier' => 'jne:sicepat:jnt:pos:ninja:anteraja:tiki'
+                'destinationType' => $DESTINATION_TYPE,
+                'weight' => $WEIGHT,
+                'courier' => $COURIER
             ]
         ]);
 
@@ -52,10 +58,25 @@ class CostController extends Controller
         $collections = collect($array);
         $collections = $collections['rajaongkir']['results'];
 
+        $COST_ID = Uuid::uuid4()->toString() . "\n";
+
+        Cost::updateOrCreate(
+            [
+                'cost_id' => $COST_ID,
+                'origin' => $validateData['origin'],
+                'originType' => $ORIGIN_TYPE,
+                'destination' => $validateData['destination'],
+                'destinationType' => $DESTINATION_TYPE,
+                'weight' => $WEIGHT,
+                'courier' => $COURIER
+            ]
+        );
+
         foreach ($collections as $items) {
             foreach ($items['costs'] as $costs) {
                 CostLog::updateOrCreate([
                     'cost_log_id' => Uuid::uuid4()->toString() . "\n",
+                    'cost_id' => $COST_ID,
                     'courier' => $items['name'],
                     'service' => $costs['service'],
                     'description' => $costs['description'],

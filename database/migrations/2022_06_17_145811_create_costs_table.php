@@ -14,11 +14,12 @@ return new class extends Migration {
     {
         Schema::create('costs', function (Blueprint $table) {
             $table->uuid('cost_id')->unique()->primary();
+            $table->string('origin');
+            $table->string('originType');
+            $table->string('destination');
+            $table->string('destinationType');
+            $table->string('weight');
             $table->string('courier');
-            $table->string('service');
-            $table->string('description');
-            $table->string('price');
-            $table->string('etd_day');
             $table->timestamps();
         });
     }

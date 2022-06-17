@@ -14,6 +14,7 @@ return new class extends Migration {
     {
         Schema::create('cost_logs', function (Blueprint $table) {
             $table->uuid('cost_log_id')->unique()->primary();
+            $table->foreignUuid('cost_id');
             $table->string('courier');
             $table->string('service');
             $table->string('description');
