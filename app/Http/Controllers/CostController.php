@@ -127,6 +127,7 @@ class CostController extends Controller
     public function getFastest()
     {
         return CostLog::where('cost_id', '=', session('cost_id'))
+            ->where('etd_day', "!=", "")
             ->orderByRaw('CONVERT(etd_day, SIGNED) asc')
             ->LIMIT(3)
             ->get();
