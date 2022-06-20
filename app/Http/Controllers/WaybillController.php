@@ -74,6 +74,6 @@ class WaybillController extends Controller
         $array = json_decode($results->getBody()->getContents(), true);
         $collection = collect($array);
 
-        return redirect('/waybill?courier=' . $validateData['courier'])->with('data', $collection);
+        return redirect('/waybill?courier=' . $collection['rajaongkir']['query']['courier'] . '&waybill=' . $collection['rajaongkir']['query']['waybill'])->with('data', $collection);
     }
 }

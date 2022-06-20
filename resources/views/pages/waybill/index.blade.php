@@ -28,8 +28,14 @@
         <div class="row">
             <div class="col-md-9 col-sm-12">
                 <div class="form-group">
-                    <input type="awb" name="awb" class="form-control" id="awb" aria-describedby="awb"
-                           placeholder="Enter AWB Number" required autocomplete="off" value="">
+                    @if(session()->has('data'))
+                        <input type="awb" name="awb" class="form-control" id="awb" aria-describedby="awb"
+                               placeholder="Enter AWB Number" required autocomplete="off"
+                               value="{{ session()->get('data')['rajaongkir']['query']['waybill'] }}">
+                    @else
+                        <input type="awb" name="awb" class="form-control" id="awb" aria-describedby="awb"
+                               placeholder="Enter AWB Number" required autocomplete="off">
+                    @endif
                     <small id="emailHelp" class="form-text text-muted">We'll never share your AWB number with anyone
                         else.</small>
                     <input type="hidden" name="courier" value="{{request()->get('courier')}}">
@@ -44,7 +50,97 @@
     @if(session()->has('data'))
         <div class="row">
             <div class="col-12">
+                <button type="button" class="btn btn-info float-right" data-toggle="modal" data-target="#detailModel">
+                    Show Details
+                </button>
+            </div>
+            <div class="col-12">
                 <div id="my-roadmap"></div>
+            </div>
+        </div>
+        <div class="modal fade" id="detailModel" tabindex="-1" role="dialog" aria-labelledby="detailLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-gray-800"
+                            id="exampleModalLabel">{{ session()->get('data')['rajaongkir']['result']['summary']['courier_name'].' - '.session()->get('data')['rajaongkir']['result']['summary']['waybill_number']  }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="text-gray-900">Delivered
+                                    = {{ session()->get('data')['rajaongkir']['result']['delivered'] == true ? 'Yes' : 'No' }}</h6>
+                            </div>
+                            <div class="col-12">
+                                <div id="details">
+                                    <h6 class="text-gray-900">Details</h6>
+                                    <div class="ml-2">
+                                        <table>
+                                            <tr>
+                                                <td class="text-gray-800">Waybill date</td>
+                                                <td class="text-gray-800"> :</td>
+                                                <td class="text-gray-800">{{ session()->get('data')['rajaongkir']['result']['summary']['waybill_date'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-gray-800">Waybill time</td>
+                                                <td class="text-gray-800"> :</td>
+                                                <td class="text-gray-800">{{ session()->get('data')['rajaongkir']['result']['details']['waybill_time'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-gray-800">Weight</td>
+                                                <td class="text-gray-800"> :</td>
+                                                <td class="text-gray-800">{{ session()->get('data')['rajaongkir']['result']['details']['weight'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-gray-800">Courier name</td>
+                                                <td class="text-gray-800"> :</td>
+                                                <td class="text-gray-800">{{ session()->get('data')['rajaongkir']['result']['summary']['courier_name'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-gray-800">Service</td>
+                                                <td class="text-gray-800"> :</td>
+                                                <td class="text-gray-800">{{ session()->get('data')['rajaongkir']['result']['summary']['service_code'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-gray-800">Shipper name</td>
+                                                <td class="text-gray-800"> :</td>
+                                                <td class="text-gray-800">{{ session()->get('data')['rajaongkir']['result']['summary']['shipper_name'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-gray-800">Receiver name</td>
+                                                <td class="text-gray-800"> :</td>
+                                                <td class="text-gray-800">{{ session()->get('data')['rajaongkir']['result']['summary']['receiver_name'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-gray-800">Origin</td>
+                                                <td class="text-gray-800"> :</td>
+                                                <td class="text-gray-800">{{ session()->get('data')['rajaongkir']['result']['summary']['origin'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-gray-800">Destination</td>
+                                                <td class="text-gray-800"> :</td>
+                                                <td class="text-gray-800">{{ session()->get('data')['rajaongkir']['result']['summary']['destination'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-gray-800">Status</td>
+                                                <td class="text-gray-800"> :</td>
+                                                <td class="text-gray-800">{{ session()->get('data')['rajaongkir']['result']['summary']['status'] }}</td>
+                                            </tr>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
             </div>
         </div>
     @endif
