@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
 
 class WaybillController extends Controller
@@ -56,17 +57,20 @@ class WaybillController extends Controller
 
         $RAJAONGKIR_PRO_API_KEY = "82aab7e0170e3e31f9a2da7b61ef4bab";
         $client = new Client;
-        $results = $client->request('POST', 'https://pro.rajaongkir.com/api/waybill', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'key' => env('RAJAONGKIR_API_KEY', $RAJAONGKIR_PRO_API_KEY),
-            ],
-            'form_params' => [
-                'waybill' => $validateData['awb'],
-                'courier' => $validateData['courier'],
-            ]
-        ]);
-
+        try {
+            $results = $client->request('POST', 'https://pro.rajaongkir.com/api/waybill', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'key' => env('RAJAONGKIR_API_KEY', $RAJAONGKIR_PRO_API_KEY),
+                ],
+                'form_params' => [
+                    'waybill' => $validateData['awb'],
+                    'courier' => $validateData['courier'],
+                ]
+            ]);
+        } catch (GuzzleException $e) {
+            return redirect()->back()->with('invalid', 'Invalid AWB Number. Please try again');
+        }
         $array = json_decode($results->getBody()->getContents(), true);
         $collection = collect($array);
 

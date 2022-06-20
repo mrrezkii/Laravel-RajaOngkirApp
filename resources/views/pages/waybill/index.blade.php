@@ -3,6 +3,22 @@
     <link rel="stylesheet" href="{{url('/vendor/dynamic-animated-timeline-slider/dist/jquery.roadmap.min.css')}}">
 @endsection
 @section('container')
+    @if(session()->has('invalid'))
+        <div class="position-fixed" style="right: 10px;bottom: 50px">
+            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+                <div class="toast-header d-flex justify-content-between">
+                    <img src="https://rajaongkir.com/assets/img/favicon/favicon.ico" class="rounded mr-2 img-fluid"
+                         alt="..." width="20px">
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    {{ session('invalid') }}
+                </div>
+            </div>
+        </div>
+    @endif
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Waybill - {{$courier_name}}</h1>
     </div>
@@ -63,4 +79,7 @@
             });
         </script>
     @endif
+    <script>
+        $('.toast').toast('show');
+    </script>
 @endsection
